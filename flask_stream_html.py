@@ -48,6 +48,13 @@ def start_timing():
     flask.g.id = random.randint(1, 65535)
     flask.g.started = started
 
+@app.after_request
+def set_response_headers(response):
+  """ Ensures no cache """
+  response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+  response.headers['Pragma'] = 'no-cache'
+  response.headers['Expires'] = '0'
+  return response
 
 @app.teardown_request
 def end_timing(error=None):
