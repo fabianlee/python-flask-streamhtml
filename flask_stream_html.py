@@ -107,9 +107,8 @@ def stream_html():
             else:
                 yield random_string(block_size)
 
-    return flask.Response(generate(static_data), mimetype='text/html')
-    # if you needed the request context in generate, then you would use stream_with_context
-    #return flask.Response(flask.stream_with_context(generate(static_data)), mimetype='text/html')
+    # stream with context so the 'after_request' happens when streaming is finished
+    return flask.Response(flask.stream_with_context(generate(static_data)), mimetype='text/html')
 
 
 if __name__ == "__main__":
